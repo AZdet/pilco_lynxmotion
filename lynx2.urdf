@@ -1,0 +1,212 @@
+<?xml version="1.0"?>
+<robot name="lynxmotion_AL5D">
+
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size="0.5 0.5 .05"/>
+      </geometry>
+      <material name="black">
+	      <color rgba="0 0 0 1" />
+      </material>
+	    <origin rpy="0 0 0" xyz="0 0 0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.5 0.5 .05"/>
+      </geometry>
+	    <origin rpy="0 0 0" xyz="0 0 0"/>
+    </collision>
+  </link>
+
+  <joint name="servo1" type="fixed">
+    <parent link="base_link"/>
+    <child link="first_link"/>
+    <origin xyz="0 0 0.025"/>
+  </joint>  
+
+  <link name="first_link">
+    <visual>
+      <geometry>
+        <cylinder length="0.0562" radius="0.1"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0.0281"/>
+      <material name="blue">
+	      <color rgba="0 0 0.8 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.0562" radius="0.1"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0.0281"/>
+    </collision>
+  </link>
+
+  <joint name="servo2_to_base" type="revolute">
+  <axis xyz="0 0 1"/>
+  <limit effort="1000.0" lower="-1.4" upper="1.4" velocity="0.5"/>
+    <parent link="first_link"/>
+    <child link="first_servo_h"/>
+    <origin xyz="0 0 0.0562"/>
+  </joint>
+
+  <link name="first_servo_h">
+    <visual>
+      <geometry>
+        <cylinder length="0.05" radius="0.02"/>
+      </geometry>
+	      <origin rpy="0 1.57075 0" xyz="0 0 0.02"/>
+      <material name="green">
+	      <color rgba="0 0.8 0 1" />
+      </material>
+    </visual>
+  </link>
+
+  <joint name="servo2" type="revolute">
+    <axis xyz="1 0 0"/>
+    <limit effort="1000.0" lower="0.0" upper="3.14159" velocity="0.5"/>
+    <parent link="first_servo_h"/>
+    <child link="second_link"/>
+    <origin xyz="0 0 0.02"/>
+  </joint>
+
+  <link name="second_link">
+    <visual>
+      <geometry>
+        <box size="0.05 0.04 0.10605"/>
+      </geometry>
+	    <origin rpy="0 0 0" xyz="0 0 0.073025"/>   <!--0.073025 = 0.10605/2 + 0.02(radius)-->
+      <material name="blue" />
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.05 0.04 0.10605"/>
+      </geometry>
+	    <origin rpy="0 0 0" xyz="0 0 0.073025"/>
+    </collision>
+  </link>
+
+  <joint name="link2_servo" type="fixed">
+    <parent link="second_link"/>
+    <child link="second_servo_h"/>
+    <origin xyz="0 0 0.14605"/>
+  </joint>
+
+  <link name="second_servo_h">
+    <visual>
+      <geometry>
+        <cylinder length="0.05" radius="0.02" />
+      </geometry>
+	    <origin rpy="0 1.57075 0" xyz="0 0 0"/>
+	    <material name="green" />
+    </visual>
+  </link>
+
+  <joint name="servo3" type="revolute">
+    <axis xyz="1 0 0"/>
+    <limit effort="1000.0" lower="0.0" upper="3.14159" velocity="0.5"/>
+    <parent link="second_servo_h"/>
+    <child link="third_link"/>
+    <origin xyz="0 0 0"/>
+  </joint>
+
+  <link name="third_link">
+    <visual>
+      <geometry>
+        <cylinder length="0.147325" radius="0.01" />  <!-- 0.147325/2 + 0.02 -->
+      </geometry>
+	    <origin rpy="1.57075 0 0" xyz="0 0.0936625 0"/>
+	    <material name="white">
+	      <color rgba="1 1 1 1" />
+	    </material>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.147325" radius="0.01"  />
+      </geometry>
+	  <origin rpy="1.57075 0 0" xyz="0 0.0936625 0"/>
+    </collision>
+  </link>
+
+  <joint name="link3_servo" type="fixed">
+    <parent link="third_link"/>
+    <child link="third_servo_h"/>
+    <origin xyz="0 0.187325 0"/>
+  </joint>
+
+  <link name="third_servo_h">
+    <visual>
+      <geometry>
+        <cylinder length="0.05" radius="0.02" />
+      </geometry>
+	  <origin rpy="0 1.57075 0" xyz="0 0 0"/>
+	  <material name="green" />
+    </visual>
+  </link>
+
+  <joint name="servo4" type="revolute">
+    <axis xyz="1 0 0"/>
+    <limit effort="1000.0" lower="0.0" upper="3.14159" velocity="0.5"/>
+    <parent link="third_servo_h"/>
+    <child link="fourth_servo_h"/>
+    <origin xyz="0 0 0"/>
+  </joint>
+  
+  <link name="fourth_servo_h">
+    <visual>
+      <geometry>
+        <cylinder length="0.014" radius="0.02" />
+      </geometry>
+	    <origin rpy="1.57075 0 0" xyz="0 0.027 0"/>
+	    <material name="blue" />
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.014" radius="0.02" />
+      </geometry>
+	    <origin rpy="1.57075 0 0" xyz="0 0.027 0"/>
+    </collision>
+  </link>
+
+  <joint name="servo5" type="revolute">
+    <axis xyz="0 1 0"/>
+    <limit effort="1000.0" lower="0.0" upper="3.14159" velocity="0.5"/>
+    <parent link="fourth_servo_h"/>
+    <child link="effector"/>
+    <origin xyz="0 0.0762 0"/>
+  </joint>
+
+  <link name="effector">
+    <visual>
+      <geometry>
+        <sphere radius="0.025" />
+      </geometry>
+	<origin rpy="0 0 0" xyz="0 0 0"/>
+	<material name="black" />
+    </visual>
+  </link>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <joint name="effector_joint" type="fixed">
+    <parent link="fourth_servo_h"/>
+    <child link="effector"/>
+    <origin xyz="-0.1 0 0" />
+  </joint>
+
+</robot>
