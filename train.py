@@ -5,12 +5,15 @@ from pilco.controllers import RbfController, LinearController
 from pilco.rewards import ExponentialReward
 import tensorflow as tf
 from tensorflow import logging
+from env import StackArmEnv
 np.random.seed(0)
 
-from utils import rollout, policy
+from utils import rollout, policy, reward_wrapper
+
+
 
 with tf.Session(graph=tf.Graph()) as sess:
-    env = gym.make('InvertedPendulum-v2')
+    env = StackArmEnv()
     # Initial random rollouts to generate a dataset
     X,Y = rollout(env=env, pilco=None, random=True, timesteps=40)
     for i in range(1,3):
@@ -21,7 +24,7 @@ with tf.Session(graph=tf.Graph()) as sess:
 
     state_dim = Y.shape[1]
     control_dim = X.shape[1] - state_dim
-    controller = RbfController(state_dim=state_dim, control_dim=control_dim, num_basis_functions=5)
+    controller = LinearController(state_dim=state_dim, control_dim=control_dim, num_basis_functions=5)
     #controller = LinearController(state_dim=state_dim, control_dim=control_dim)
 
     pilco = PILCO(X, Y, controller=controller, horizon=40)
