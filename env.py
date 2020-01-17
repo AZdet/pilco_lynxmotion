@@ -16,7 +16,8 @@ class StackArmEnv(gym.Env):
         self.boxID = p.loadURDF("box.urdf", basePosition=self.box_pos)
         self.planeID = p.loadURDF("plane.urdf")
         self.valid_joints = [1, 2, 4, 6, 7, 8, 9]  
-        self.force = 200 
+        self.force = 200
+        
 
     def applyAction(self, motorCommands):
         """
@@ -35,8 +36,10 @@ class StackArmEnv(gym.Env):
 
     def step(self, action):
         self.applyAction(action)
-        box_pos = p.getJointState(self.boxID, 0)
+        box_pos = p.getLinkState(self.boxID, 0)[0:2]  
         reward = None
+        done = False
+        return box_pos, reward, done, None
         
 
 if __name__ == "__main__":
